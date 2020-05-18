@@ -70,6 +70,7 @@ typedef struct			s_format
 }						t_format;
 
 int						ft_printf(const char *str, ...);
+int						fd_printf(int fd, const char *str, ...);
 void					handle_int(t_pf *e, t_format *u, int nb);
 void					conv_s(t_format *u, t_pf *e, char *str);
 void					conv_b(t_pf *e, t_format *u);

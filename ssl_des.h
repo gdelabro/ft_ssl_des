@@ -5,6 +5,7 @@
 # include <stdlib.h>
 # include <sys/types.h>
 # include <sys/stat.h>
+# include <inttypes.h>
 # include "ft_printf/ft_printf.h"
 
 # define CH(x, y, z) (((x) & (y)) ^ (~(x) & (z)))
@@ -68,8 +69,8 @@ typedef struct	s_sha256
 
 typedef struct	s_b64
 {
-	char			*msg;
-	char			*result;
+	uint8_t			*msg;
+	uint8_t			*result;
 	unsigned int	size_result;
 	int				len;
 	int				fd;
@@ -78,8 +79,8 @@ typedef struct	s_b64
 	char			buf[501];
 	char			*tmp;
 	int				i;
-	unsigned int	nb;
-	unsigned char	n[4];
+	uint32_t		nb;
+	uint8_t			n[4];
 	int				index;
 }				t_b64;
 
@@ -120,5 +121,6 @@ unsigned int	rotl(unsigned int nb, unsigned int rot);
 unsigned int	rotr(unsigned int nb, unsigned int rot);
 
 void			base64(t_ssl *s);
+void			base64_decode(t_ssl *s, t_b64 *b);
 
 #endif
