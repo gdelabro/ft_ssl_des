@@ -1,4 +1,4 @@
-#include "../ssl_des.h"
+#include "../ft_ssl.h"
 
 void	hash_arg(t_ssl *s, char **av)
 {
@@ -14,7 +14,7 @@ void	hash_arg(t_ssl *s, char **av)
 		else if (!ft_strcmp(av[i], "-q"))
 			s->q = 1;
 		else if (!ft_strcmp(av[i], "-s") && !s->s)
-			!(s->s = av[++i]) ? quit("option s has no string\n") : 0;
+			!(s->s = av[++i]) ? quit("option s has no string") : 0;
 		else if (ft_strcmp(av[i], "-s"))
 			!s->file ? s->file = av[i] : 0;
 	}

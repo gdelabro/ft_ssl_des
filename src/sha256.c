@@ -1,4 +1,4 @@
-#include "../ssl_des.h"
+#include "../ft_ssl.h"
 
 static const unsigned int g_k[64] = {
 	0x428a2f98,0x71374491,0xb5c0fbcf,0xe9b5dba5,
@@ -70,9 +70,8 @@ void			sha256_funct(char *message, t_ssl *ssl)
 	t_sha256	sha;
 
 	sha256_init(ssl, &sha, message);
-	while (++sha.grp < sha.nb_grps)
+	while (++sha.grp < sha.nb_grps && (sha.i = -1))
 	{
-		sha.i = -1;
 		sha256_compression(&sha);
 		sha.a0 += sha.a;
 		sha.b0 += sha.b;
@@ -92,4 +91,5 @@ void			sha256_funct(char *message, t_ssl *ssl)
 	ssl->hash[5] = sha.f0;
 	ssl->hash[6] = sha.g0;
 	ssl->hash[7] = sha.h0;
+	free(sha.msg);
 }

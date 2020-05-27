@@ -1,4 +1,33 @@
-#include "../ssl_des.h"
+#include "../ft_ssl.h"
+
+void	des_arg(t_ssl *s, char **av)
+{
+	s->len = 1;
+	while (av[++s->len])
+	{
+		if (!ft_strcmp(av[s->len], "-a"))
+			s->a = 1;
+		else if (!ft_strcmp(av[s->len], "-d"))
+			s->d = 1;
+		else if (!ft_strcmp(av[s->len], "-e"))
+			s->e = 1;
+		else if (!ft_strcmp(av[s->len], "-i"))
+			s->i = av[++s->len];
+		else if (!ft_strcmp(av[s->len], "-o"))
+			s->o = av[++s->len];
+		else if (!ft_strcmp(av[s->len], "-k"))
+			s->k = av[++s->len];
+		else if (!ft_strcmp(av[s->len], "-p"))
+			s->pass = av[++s->len];
+		else if (!ft_strcmp(av[s->len], "-s"))
+			s->s = av[++s->len];
+		else if (!ft_strcmp(av[s->len], "-v"))
+			s->v = av[++s->len];
+		else
+			quit("bad argument");
+	}
+	s->len = 0;
+}
 
 void	base64_arg(t_ssl *s, char **av)
 {
@@ -27,5 +56,10 @@ void	cipher_commands(char *str, t_ssl *s, char **av)
 	{
 		ft_memcpy(s->hash_name, "BASE64", 7);
 		base64_arg(s, av);
+	}
+	else
+	{
+		des_arg(s, av);
+		des_init(str, s);
 	}
 }

@@ -1,4 +1,4 @@
-#include "../ssl_des.h"
+#include "../ft_ssl.h"
 
 static const	int g_s[64] = {
 				7, 12, 17, 22, 7, 12, 17, 22, 7, 12, 17, 22, 7, 12, 17, 22,
@@ -94,4 +94,5 @@ void			md5_funct(char *message, t_ssl *ssl)
 	ssl->hash[1] = switch_endian(md5.b0);
 	ssl->hash[2] = switch_endian(md5.c0);
 	ssl->hash[3] = switch_endian(md5.d0);
+	free(md5.msg);
 }
