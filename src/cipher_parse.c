@@ -49,7 +49,6 @@ void	base64_arg(t_ssl *s, char **av)
 	}
 	if (s->i && s->o && !ft_strcmp(s->i, s->o))
 		quit("same file for input and output");
-	base64(s);
 }
 
 void	cipher_commands(char *str, t_ssl *s, char **av)
@@ -58,6 +57,7 @@ void	cipher_commands(char *str, t_ssl *s, char **av)
 	{
 		ft_memcpy(s->hash_name, "BASE64", 7);
 		base64_arg(s, av);
+		base64(s);
 	}
 	else
 	{

@@ -87,6 +87,7 @@ typedef struct	s_b64
 
 typedef struct	s_des
 {
+	uint8_t			cbc;
 	uint8_t			*msg;
 	uint32_t		len;
 	uint8_t			*result;
@@ -103,6 +104,7 @@ typedef struct	s_des
 	char			*pass;
 	uint64_t		salt;
 	uint64_t		key;
+	uint64_t		iv;
 	uint64_t		k[17];
 	uint32_t		c[17];
 	uint32_t		d[17];
@@ -157,7 +159,7 @@ void			base64(t_ssl *s);
 void			base64_decode(t_ssl *s, t_b64 *b);
 
 void			des_init(char *str, t_ssl *s);
-void			des_ecb_encode(t_ssl *ssl, t_des *d);
+void			des_func(t_ssl *ssl, t_des *d);
 
 void			create_subKeys(t_des *d);
 uint64_t		permutate(uint64_t key, const uint8_t *tab,

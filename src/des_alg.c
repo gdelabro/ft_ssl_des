@@ -47,19 +47,12 @@ uint32_t	f(uint32_t r, uint64_t key)
 	ret = permutate(ret, g_P, 32, 32);
 	return (ret);
 }
-
+/*
 void		blockDecryption(t_des *d)
 {
 	uint32_t	i;
 	uint64_t	block;
 
-	/*i = 0;
-	while (++i < 9)
-	{
-		d->k[i] ^= d->k[17 - i];
-		d->k[17 - i] ^= d->k[i];
-		d->k[i] ^= d->k[17 - i];
-	}*/
 	i = 0;
 	while (i < d->size_result)
 	{
@@ -78,9 +71,9 @@ void		blockDecryption(t_des *d)
 		*(uint64_t*)(d->result + i) = reverse_uint64(block);
 		i += 8;
 	}
-}
+}*/
 
-void		blockEncryption(t_des *d)
+void		blockEncryption(t_des *d, uint8_t enc)
 {
 	uint32_t	i;
 	uint64_t	block;
@@ -89,6 +82,7 @@ void		blockEncryption(t_des *d)
 	while (i < d->size_result)
 	{
 		d->m = reverse_uint64(*(uint64_t*)(d->msg + i));
+		d->cbc && enc ? d->m ^= d->iv : 0;
 		d->ip = permutate(d->m, g_IP, 64, 64);
 		d->l[0] = d->ip >> 32;
 		d->r[0] = d->ip;
@@ -100,16 +94,30 @@ void		blockEncryption(t_des *d)
 		}
 		block = ((uint64_t)d->r[16] << 32) + d->l[16];
 		block = permutate(block, g_IP2, 64, 64);
+		enc ? d->iv = block : 0;
+		d->cbc && !enc ? block ^= d->iv : 0;
+		!enc ? d->iv = d->m : 0;
 		*(uint64_t*)(d->result + i) = reverse_uint64(block);
 		i += 8;
 	}
 }
 
-void		des_ecb_encode(t_ssl *ssl, t_des *d)
+void		des_func(t_ssl *ssl, t_des *d)
 {
+	int i;
+
+	i = 0;
 	ssl->e ? padding(d) : malloc_result(d);
 	create_subKeys(d);
-	ssl->e ? blockEncryption(d) : blockDecryption(d);
-	//ssl->d ? d->size_result -= (uint8_t)d->result[d->size_result - 1] : 0;
+	while (++i < 9 && ssl->d)
+	{
+		d->k[i] ^= d->k[17 - i];
+		d->k[17 - i] ^= d->k[i];
+		d->k[i] ^= d->k[17 - i];
+	}
+	blockEncryption(d, ssl->e);
+	ssl->d && (uint8_t)d->result[d->size_result - 1] > 8 ?
+		quit("bad padding at the end") : 0;
+	ssl->d ? d->size_result -= (uint8_t)d->result[d->size_result - 1] : 0;
 	write(d->fd2, d->result, d->size_result);
 }

@@ -54,7 +54,7 @@ void		key_gen(t_ssl *s, t_des *d)
 		d->key = transform_hex_to_uint64(s->k);
 	else
 		d->key = ft_pbkdf(s, d->pass, d->salt);
-	!s->k ? ft_printf("key created: %.16lX\n", d->key) : 0;
+	!s->k ? fd_printf(2, "key created: %.16lX\n", d->key) : 0;
 }
 
 void	des_luncher(t_ssl *s, t_des *d)
@@ -80,19 +80,23 @@ void	des_luncher(t_ssl *s, t_des *d)
 		d->msg = (uint8_t*)d->tmp;
 		d->len += i;
 	}
-	s->e ? des_ecb_encode(s, d) : des_ecb_encode(s, d);
+	des_func(s, d);
 }
 
 void		des_init(char *str, t_ssl *s)
 {
 	t_des d;
 
-	(void)str;
 	ft_bzero(&d, sizeof(t_des));
+	!ft_strcmp(str, "des-cbc") ? d.cbc = 1 : 0;
 	s->e ? s->d = 0 : 0;
 	!s->d ? s->e = 1 : 0;
 	if (!s->k && s->d)
 		quit("no key for decode mode");
+	if (d.cbc && !s->v)
+		quit("no initialization vector for cbc mode");
+	d.cbc ? d.iv = transform_hex_to_uint64(s->v) : 0;
 	s->e ? key_gen(s, &d) : 0;
+	s->d ? d.key = transform_hex_to_uint64(s->k) : 0;
 	des_luncher(s, &d);
 }
