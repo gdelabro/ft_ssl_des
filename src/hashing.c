@@ -81,7 +81,7 @@ void	hashing(t_ssl *s)
 	{
 		fill_file_content(s);
 		if (!s->file_content)
-			quit("can't open/read file input");//ft_printf("can't open/read %s\n", s->file);
+			quit("can't open/read file input");
 		else
 		{
 			s->hash_func(s->file_content, s);

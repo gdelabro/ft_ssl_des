@@ -2,13 +2,7 @@
 
 uint64_t	takeBitNumber(uint64_t key, int bit, int keysize)
 {
-	int		i;
-
-	i = 0;
-	keysize++;
-	while (++i < keysize - bit)
-		key >>= 1;
-	return (key & 1);
+	return ((key >> (keysize - bit)) & 1);
 }
 
 uint32_t	left_shift_28(uint32_t key, int shifts)
@@ -22,17 +16,17 @@ uint32_t	left_shift_28(uint32_t key, int shifts)
 	return (key);
 }
 
-uint64_t	new_key(uint64_t key)
+uint64_t	permutate(uint64_t key, const uint8_t *tab, int oldkeyl, int keyl)
 {
-	uint64_t	k;
 	int			i;
+	uint64_t	k;
 
 	k = 0;
 	i = -1;
-	while (++i < 48)
+	while (++i < keyl)
 	{
 		k <<= 1;
-		k |= takeBitNumber(key, g_PC2[i], 56);
+		k |= takeBitNumber(key, tab[i], oldkeyl);
 	}
 	return (k);
 }
@@ -41,12 +35,7 @@ void		create_subKeys(t_des *d)
 {
 	int		i;
 
-	i = -1;
-	while (++i < 56)
-	{
-		d->k[0] <<= 1;
-		d->k[0] |= takeBitNumber(d->key, g_PC1[i], 64);
-	}
+	d->k[0] = permutate(d->key, g_PC1, 64, 56);
 	d->c[0] = d->k[0] >> 28;
 	d->d[0] = d->k[0] & 0xFFFFFFF;
 	i = 0;
@@ -58,8 +47,5 @@ void		create_subKeys(t_des *d)
 	}
 	i = 0;
 	while (++i < 17)
-	{
-		d->k[i] = new_key(d->k[i]);
-		ft_printf("K[%d] = %.48lb\n", i, d->k[i]);
-	}
+		d->k[i] = permutate(d->k[i], g_PC2, 56, 48);
 }

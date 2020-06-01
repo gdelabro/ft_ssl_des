@@ -54,7 +54,7 @@ void		key_gen(t_ssl *s, t_des *d)
 		d->key = transform_hex_to_uint64(s->k);
 	else
 		d->key = ft_pbkdf(s, d->pass, d->salt);
-	ft_printf("pass: %s\nsalt: %.16lX\nkey: %.16lX\n", d->pass, d->salt, d->key);
+	!s->k ? ft_printf("key created: %.16lX\n", d->key) : 0;
 }
 
 void	des_luncher(t_ssl *s, t_des *d)
@@ -72,12 +72,13 @@ void	des_luncher(t_ssl *s, t_des *d)
 	while ((i = read(d->fd, d->buf, 500)) > 0)
 	{
 		d->buf[i] = 0;
-		d->tmp = malloc(s->len + i + 1);
-		s->len ? ft_memcpy(d->tmp, d->msg, s->len) : 0;
-		ft_memcpy(d->tmp + s->len, d->buf, i + 1);
-		s->len ? free(d->msg) : 0;
+		if (!(d->tmp = malloc(d->len + i + 1)))
+			quit("malloc failed\n");
+		d->len ? ft_memcpy(d->tmp, d->msg, d->len) : 0;
+		ft_memcpy(d->tmp + d->len, d->buf, i + 1);
+		d->len ? free(d->msg) : 0;
 		d->msg = (uint8_t*)d->tmp;
-		s->len += i;
+		d->len += i;
 	}
 	s->e ? des_ecb_encode(s, d) : des_ecb_encode(s, d);
 }

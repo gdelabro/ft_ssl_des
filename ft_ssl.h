@@ -106,6 +106,10 @@ typedef struct	s_des
 	uint64_t		k[17];
 	uint32_t		c[17];
 	uint32_t		d[17];
+	uint64_t		m;
+	uint64_t		ip;
+	uint32_t		l[17];
+	uint32_t		r[17];
 }				t_des;
 
 typedef struct	s_ssl
@@ -147,6 +151,7 @@ void			sha256_funct(char *message, t_ssl *ssl);
 unsigned int	switch_endian(unsigned int nb);
 unsigned int	rotl(unsigned int nb, unsigned int rot);
 unsigned int	rotr(unsigned int nb, unsigned int rot);
+uint64_t		reverse_uint64(uint64_t nb);
 
 void			base64(t_ssl *s);
 void			base64_decode(t_ssl *s, t_b64 *b);
@@ -155,5 +160,7 @@ void			des_init(char *str, t_ssl *s);
 void			des_ecb_encode(t_ssl *ssl, t_des *d);
 
 void			create_subKeys(t_des *d);
+uint64_t		permutate(uint64_t key, const uint8_t *tab,
+							int oldkeyl, int keyl);
 
 #endif
