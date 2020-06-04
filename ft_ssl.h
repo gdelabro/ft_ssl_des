@@ -157,9 +157,11 @@ uint64_t		reverse_uint64(uint64_t nb);
 
 void			base64(t_ssl *s);
 void			base64_decode(t_ssl *s, t_b64 *b);
+void			aff_code(char *str, int fd);
 
 void			des_init(char *str, t_ssl *s);
 void			des_func(t_ssl *ssl, t_des *d);
+void			base64_des(t_ssl *s, t_des *d);
 
 void			create_subKeys(t_des *d);
 uint64_t		permutate(uint64_t key, const uint8_t *tab,

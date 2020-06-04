@@ -49,7 +49,29 @@ void	base64_encode(t_ssl *s, t_b64 *b)
 		b->result[b->index++] = b->i + 2 < s->len ? base64chars[b->n[3]] : '=';
 		b->i += 3;
 	}
-	aff_code((char*)b->result, b->fd2);
+	s->ssl_command_type == 2 ? aff_code((char*)b->result, b->fd2) : 0;
+}
+
+void	base64_des(t_ssl *s, t_des *d)
+{
+	t_b64			b;
+
+	ft_memset(&b, 0, sizeof(b));
+	b.msg = s->e ? d->result : d->msg;
+	s->len = s->e ? d->size_result : d->len;
+	s->e ? base64_encode(s, &b) : base64_decode(s, &b);
+	if (s->e)
+	{
+		free(d->result);
+		d->result = b.result;
+		d->size_result = b.size_result;
+	}
+	else
+	{
+		free(d->msg);
+		d->msg = b.result;
+		d->len = b.size_result;
+	}
 }
 
 void	base64(t_ssl *s)

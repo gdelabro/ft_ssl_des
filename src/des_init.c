@@ -33,6 +33,8 @@ uint64_t	transform_hex_to_uint64(char *str)
 			nb += str[i] - '0';
 		else if (str[i] >= 'A' && str[i] <= 'F')
 			nb += str[i] - 'A' + 10;
+		else if (str[i] >= 'a' && str[i] <= 'f')
+			nb += str[i] - 'a' + 10;
 		else
 			quit("bad character in hex number");
 	}

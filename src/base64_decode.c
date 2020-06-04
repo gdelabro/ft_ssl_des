@@ -68,5 +68,5 @@ void	base64_decode(t_ssl *s, t_b64 *b)
 		i2 < b->size_result ? b->result[i2++] = (uint8_t)(b->nb >> 8) : 0;
 		i2 < b->size_result ? b->result[i2++] = (uint8_t)b->nb : 0;
 	}
-	write(b->fd2, b->result, b->size_result);
+	s->ssl_command_type == 2 ? write(b->fd2, b->result, b->size_result) : 0;
 }
