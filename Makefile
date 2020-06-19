@@ -3,7 +3,7 @@ NAME = ft_ssl
 SRC_PATH = src
 SRC_NAME =	main.c parsing.c hashing.c md5.c sha256.c utils.c hash_parse.c\
 			cipher_parse.c base64.c base64_decode.c des_init.c des_alg.c\
-			create_subkeys.c
+			create_subkeys.c sha_funct.c
 
 OBJ_PATH = obj
 OBJ_NAME = $(SRC_NAME:.c=.o)

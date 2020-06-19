@@ -6,7 +6,7 @@
 /*   By: gdelabro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/19 20:04:48 by gdelabro          #+#    #+#             */
-/*   Updated: 2020/06/19 21:27:02 by gdelabro         ###   ########.fr       */
+/*   Updated: 2020/06/19 21:47:46 by gdelabro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,4 +47,9 @@ unsigned int	rotl(unsigned int nb, unsigned int rot)
 unsigned int	rotr(unsigned int nb, unsigned int rot)
 {
 	return ((nb >> rot) | (nb << (32 - rot)));
+}
+
+uint32_t		ch(uint32_t x, uint32_t y, uint32_t z)
+{
+	return (((x) & (y)) ^ (~(x) & (z)));
 }

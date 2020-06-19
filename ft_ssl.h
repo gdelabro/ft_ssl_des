@@ -6,7 +6,7 @@
 /*   By: gdelabro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/19 20:05:04 by gdelabro          #+#    #+#             */
-/*   Updated: 2020/06/19 20:37:47 by gdelabro         ###   ########.fr       */
+/*   Updated: 2020/06/19 21:46:57 by gdelabro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,6 @@
 # include <inttypes.h>
 # include "ft_printf/ft_printf.h"
 # include "ssl_des.h"
-
-# define CH(x, y, z) (((x) & (y)) ^ (~(x) & (z)))
-# define MAJ(x, y, z) (((x) & (y)) ^ ((x) & (z)) ^ ((y) & (z)))
-# define E0(x) (rotr(x, 2) ^ rotr(x, 13) ^ rotr(x, 22))
-# define E1(x) (rotr(x, 6) ^ rotr(x, 11) ^ rotr(x, 25))
-# define O0(x) (rotr(x, 7) ^ rotr(x, 18) ^ ((x) >> 3))
-# define O1(x) (rotr(x, 17) ^ rotr(x, 19) ^ ((x) >> 10))
 
 typedef struct s_ssl	t_ssl;
 
@@ -54,16 +47,16 @@ typedef struct	s_md5
 typedef struct	s_sha256
 {
 	unsigned int	w[64];
-	int				a0;
-	int				b0;
-	int				c0;
-	int				d0;
-	int				e0;
-	int				f0;
-	int				g0;
-	int				h0;
-	int				t1;
-	int				t2;
+	uint32_t		a0;
+	uint32_t		b0;
+	uint32_t		c0;
+	uint32_t		d0;
+	uint32_t		e0;
+	uint32_t		f0;
+	uint32_t		g0;
+	uint32_t		h0;
+	uint32_t		t1;
+	uint32_t		t2;
 	char			*msg;
 	int				nb_grps;
 	size_t			size;
@@ -178,5 +171,12 @@ void			base64_des(t_ssl *s, t_des *d);
 void			create_subkeys(t_des *d);
 uint64_t		permutate(uint64_t key, const uint8_t *tab,
 							int oldkeyl, int keyl);
+
+uint32_t		ch(uint32_t x, uint32_t y, uint32_t z);
+uint32_t		maj(uint32_t x, uint32_t y, uint32_t z);
+uint32_t		e0(uint32_t x);
+uint32_t		e1(uint32_t x);
+uint32_t		o0(uint32_t x);
+uint32_t		o1(uint32_t x);
 
 #endif

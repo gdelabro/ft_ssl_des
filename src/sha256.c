@@ -6,7 +6,7 @@
 /*   By: gdelabro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/19 20:04:45 by gdelabro          #+#    #+#             */
-/*   Updated: 2020/06/19 21:26:38 by gdelabro         ###   ########.fr       */
+/*   Updated: 2020/06/19 21:45:09 by gdelabro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,11 +61,11 @@ void			sha256_compression(t_sha256 *sha)
 	while (++sha->i < 64)
 	{
 		sha->w[sha->i] = sha->i < 16 ? switch_endian(sha->m[sha->i]) :
-			(O1(sha->w[sha->i - 2]) + sha->w[sha->i - 7]
-			+ O0(sha->w[sha->i - 15]) + sha->w[sha->i - 16]);
-		sha->t1 = sha->h + E1(sha->e) +
-			CH(sha->e, sha->f, sha->g) + g_k[sha->i] + sha->w[sha->i];
-		sha->t2 = E0(sha->a) + MAJ(sha->a, sha->b, sha->c);
+			(o1(sha->w[sha->i - 2]) + sha->w[sha->i - 7]
+			+ o0(sha->w[sha->i - 15]) + sha->w[sha->i - 16]);
+		sha->t1 = sha->h + e1(sha->e) +
+			ch(sha->e, sha->f, sha->g) + g_k[sha->i] + sha->w[sha->i];
+		sha->t2 = e0(sha->a) + maj(sha->a, sha->b, sha->c);
 		sha->h = sha->g;
 		sha->g = sha->f;
 		sha->f = sha->e;
