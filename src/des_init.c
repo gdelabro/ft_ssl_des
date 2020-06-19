@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   des_init.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gdelabro <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/06/19 20:04:18 by gdelabro          #+#    #+#             */
+/*   Updated: 2020/06/19 21:21:20 by gdelabro         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../ft_ssl.h"
 
 uint64_t	ft_pbkdf(t_ssl *s, char *passwd, uint64_t salt)
@@ -59,7 +71,7 @@ void		key_gen(t_ssl *s, t_des *d)
 	!s->k ? fd_printf(2, "key created: %.16lX\n", d->key) : 0;
 }
 
-void	des_luncher(t_ssl *s, t_des *d)
+void		des_luncher(t_ssl *s, t_des *d)
 {
 	int				i;
 
@@ -70,7 +82,7 @@ void	des_luncher(t_ssl *s, t_des *d)
 			quit("can't open/read file input");
 	if (s->o && (d->fd2 = open(s->o, O_WRONLY | O_CREAT | O_TRUNC,
 		S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH)) < 0)
-			quit("can't open/write file output");
+		quit("can't open/write file output");
 	while ((i = read(d->fd, d->buf, 500)) > 0)
 	{
 		d->buf[i] = 0;

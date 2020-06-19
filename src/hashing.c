@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   hashing.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gdelabro <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/06/19 20:04:29 by gdelabro          #+#    #+#             */
+/*   Updated: 2020/06/19 21:22:26 by gdelabro         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../ft_ssl.h"
 
 void	print_hash(t_ssl *s)
@@ -45,7 +57,7 @@ void	handle_input(t_ssl *s)
 	while ((s->p || (!s->file && !s->s)) && (i = read(0, buf, 500)))
 	{
 		buf[i] = 0;
-		tmp = malloc (s->len + i + 1);
+		tmp = malloc(s->len + i + 1);
 		s->len ? ft_memcpy(tmp, s->input, s->len) : 0;
 		ft_memcpy(tmp + s->len, buf, i + 1);
 		s->len ? free(s->input) : 0;

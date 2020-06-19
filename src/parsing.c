@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parsing.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gdelabro <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/06/19 20:04:40 by gdelabro          #+#    #+#             */
+/*   Updated: 2020/06/19 21:25:39 by gdelabro         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../ft_ssl.h"
 
 void	determin_ssl_func(char *str, t_ssl *s, char **av)
@@ -11,7 +23,7 @@ void	determin_ssl_func(char *str, t_ssl *s, char **av)
 		|| !ft_strcmp(str, "des-cbc"))
 		s->ssl_command_type = 3;
 	s->ssl_command_type == 1 ? hash_commands(str, s, av) : 0;
-	s->ssl_command_type == 2  || s->ssl_command_type == 3 ?
+	s->ssl_command_type == 2 || s->ssl_command_type == 3 ?
 		cipher_commands(str, s, av) : 0;
 	if (!s->ssl_command_type)
 		quit("invalid ssl command");

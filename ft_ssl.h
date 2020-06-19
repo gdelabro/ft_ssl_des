@@ -1,5 +1,17 @@
-#ifndef F_SSL_H
-# define F_SSL_H
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_ssl.h                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gdelabro <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/06/19 20:05:04 by gdelabro          #+#    #+#             */
+/*   Updated: 2020/06/19 20:37:47 by gdelabro         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#ifndef FT_SSL_H
+# define FT_SSL_H
 
 # include <unistd.h>
 # include <stdlib.h>
@@ -16,7 +28,7 @@
 # define O0(x) (rotr(x, 7) ^ rotr(x, 18) ^ ((x) >> 3))
 # define O1(x) (rotr(x, 17) ^ rotr(x, 19) ^ ((x) >> 10))
 
-typedef struct s_ssl t_ssl;
+typedef struct s_ssl	t_ssl;
 
 typedef struct	s_md5
 {
@@ -114,7 +126,7 @@ typedef struct	s_des
 	uint32_t		r[17];
 }				t_des;
 
-typedef struct	s_ssl
+struct			s_ssl
 {
 	int		d;
 	int		e;
@@ -138,7 +150,7 @@ typedef struct	s_ssl
 	int		len;
 	int		little_endian;
 	int		ssl_command_type;
-}				t_ssl;
+};
 
 void			quit(char *str);
 
@@ -163,7 +175,7 @@ void			des_init(char *str, t_ssl *s);
 void			des_func(t_ssl *ssl, t_des *d);
 void			base64_des(t_ssl *s, t_des *d);
 
-void			create_subKeys(t_des *d);
+void			create_subkeys(t_des *d);
 uint64_t		permutate(uint64_t key, const uint8_t *tab,
 							int oldkeyl, int keyl);
 

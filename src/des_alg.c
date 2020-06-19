@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   des_alg.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gdelabro <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/06/19 20:04:14 by gdelabro          #+#    #+#             */
+/*   Updated: 2020/06/19 21:20:46 by gdelabro         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../ft_ssl.h"
 
 void		padding(t_des *d)
@@ -24,7 +36,6 @@ void		malloc_result(t_des *d)
 	d->size_result = d->len;
 	if (!(d->result = malloc(d->size_result)))
 		quit("malloc failed");
-
 }
 
 uint32_t	f(uint32_t r, uint64_t key)
@@ -33,22 +44,22 @@ uint32_t	f(uint32_t r, uint64_t key)
 	uint32_t	ret;
 	int			i;
 
-	e = permutate(r, g_E, 32, 48);
+	e = permutate(r, g_e, 32, 48);
 	e ^= key;
 	ret = 0;
 	i = -1;
 	while (++i < 8)
 	{
 		ret >>= 4;
-		ret |= g_S[7 - i][((e & 0b11110) >> 1) +
+		ret |= g_s[7 - i][((e & 0b11110) >> 1) +
 			((e & 1) + (((e >> 5) & 1) << 1)) * 16] << 28;
 		e >>= 6;
 	}
-	ret = permutate(ret, g_P, 32, 32);
+	ret = permutate(ret, g_p, 32, 32);
 	return (ret);
 }
 
-void		blockEncryption(t_des *d, uint8_t enc)
+void		block_encryption(t_des *d, uint8_t enc)
 {
 	uint32_t	i;
 	uint64_t	block;
@@ -58,7 +69,7 @@ void		blockEncryption(t_des *d, uint8_t enc)
 	{
 		d->m = reverse_uint64(*(uint64_t*)(d->msg + i));
 		d->cbc && enc ? d->m ^= d->iv : 0;
-		d->ip = permutate(d->m, g_IP, 64, 64);
+		d->ip = permutate(d->m, g_ip, 64, 64);
 		d->l[0] = d->ip >> 32;
 		d->r[0] = d->ip;
 		d->i = 0;
@@ -68,7 +79,7 @@ void		blockEncryption(t_des *d, uint8_t enc)
 			d->r[d->i] = d->l[d->i - 1] ^ f(d->r[d->i - 1], d->k[d->i]);
 		}
 		block = ((uint64_t)d->r[16] << 32) + d->l[16];
-		block = permutate(block, g_IP2, 64, 64);
+		block = permutate(block, g_ip2, 64, 64);
 		enc ? d->iv = block : 0;
 		d->cbc && !enc ? block ^= d->iv : 0;
 		!enc ? d->iv = d->m : 0;
@@ -84,18 +95,20 @@ void		des_func(t_ssl *ssl, t_des *d)
 	i = 0;
 	ssl->a && ssl->d ? base64_des(ssl, d) : 0;
 	ssl->e ? padding(d) : malloc_result(d);
-	create_subKeys(d);
+	create_subkeys(d);
 	while (++i < 9 && ssl->d)
 	{
 		d->k[i] ^= d->k[17 - i];
 		d->k[17 - i] ^= d->k[i];
 		d->k[i] ^= d->k[17 - i];
 	}
-	blockEncryption(d, ssl->e);
+	block_encryption(d, ssl->e);
 	ssl->a && ssl->e ? base64_des(ssl, d) : 0;
 	ssl->d && (uint8_t)d->result[d->size_result - 1] > 8 ?
 		quit("bad padding at the end") : 0;
 	ssl->d ? d->size_result -= (uint8_t)d->result[d->size_result - 1] : 0;
 	!ssl->a || ssl->d ? write(d->fd2, d->result, d->size_result) :
 		aff_code((char*)d->result, d->fd2);
+	free(d->msg);
+	free(d->result);
 }

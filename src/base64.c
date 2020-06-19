@@ -1,9 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   base64.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gdelabro <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/06/19 20:03:43 by gdelabro          #+#    #+#             */
+/*   Updated: 2020/06/19 21:17:28 by gdelabro         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../ft_ssl.h"
 
-static char *base64chars =	"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijk"
-							"lmnopqrstuvwxyz0123456789+/";
+static const char *g_base64chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijk"
+"lmnopqrstuvwxyz0123456789+/";
 
-void	aff_code(char *str, int fd)
+void			aff_code(char *str, int fd)
 {
 	int		i;
 	int		i2;
@@ -19,7 +31,7 @@ void	aff_code(char *str, int fd)
 	}
 }
 
-void	init_result(t_ssl *s, t_b64 *b)
+void			init_result(t_ssl *s, t_b64 *b)
 {
 	if (!s->len)
 		return ;
@@ -31,7 +43,7 @@ void	init_result(t_ssl *s, t_b64 *b)
 	b->index = 0;
 }
 
-void	base64_encode(t_ssl *s, t_b64 *b)
+void			base64_encode(t_ssl *s, t_b64 *b)
 {
 	init_result(s, b);
 	while (b->i < s->len)
@@ -43,16 +55,19 @@ void	base64_encode(t_ssl *s, t_b64 *b)
 		b->n[1] = (uint8_t)(b->nb >> 12) & 63;
 		b->n[2] = (uint8_t)(b->nb >> 6) & 63;
 		b->n[3] = (uint8_t)(b->nb) & 63;
-		b->result[b->index++] = base64chars[b->n[0]];
-		b->result[b->index++] = base64chars[b->n[1]];
-		b->result[b->index++] = b->i + 1 < s->len ? base64chars[b->n[2]] : '=';
-		b->result[b->index++] = b->i + 2 < s->len ? base64chars[b->n[3]] : '=';
+		b->result[b->index++] = g_base64chars[b->n[0]];
+		b->result[b->index++] = g_base64chars[b->n[1]];
+		b->result[b->index++] = b->i + 1 < s->len ?
+			g_base64chars[b->n[2]] : '=';
+		b->result[b->index++] = b->i + 2 < s->len ?
+			g_base64chars[b->n[3]] : '=';
 		b->i += 3;
 	}
 	s->ssl_command_type == 2 ? aff_code((char*)b->result, b->fd2) : 0;
+	s->ssl_command_type == 2 ? free(b->result) : 0;
 }
 
-void	base64_des(t_ssl *s, t_des *d)
+void			base64_des(t_ssl *s, t_des *d)
 {
 	t_b64			b;
 
@@ -74,7 +89,7 @@ void	base64_des(t_ssl *s, t_des *d)
 	}
 }
 
-void	base64(t_ssl *s)
+void			base64(t_ssl *s)
 {
 	t_b64			b;
 	int				i;
@@ -89,11 +104,11 @@ void	base64(t_ssl *s)
 			quit("can't open/read file input");
 	if (s->o && (b.fd2 = open(s->o, O_WRONLY | O_CREAT | O_TRUNC,
 		S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH)) < 0)
-			quit("can't open/write file output");
+		quit("can't open/write file output");
 	while ((i = read(b.fd, b.buf, 500)) > 0)
 	{
 		b.buf[i] = 0;
-		b.tmp = malloc(s->len + i + 1);
+		!(b.tmp = malloc(s->len + i + 1)) ? quit("malloc failed") : 0;
 		s->len ? ft_memcpy(b.tmp, b.msg, s->len) : 0;
 		ft_memcpy(b.tmp + s->len, b.buf, i + 1);
 		s->len ? free(b.msg) : 0;

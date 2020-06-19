@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gdelabro <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/06/19 20:04:48 by gdelabro          #+#    #+#             */
+/*   Updated: 2020/06/19 21:27:02 by gdelabro         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../ft_ssl.h"
 
 unsigned int	switch_endian(unsigned int nb)
@@ -12,11 +24,11 @@ unsigned int	switch_endian(unsigned int nb)
 	return (ret);
 }
 
-uint64_t	reverse_uint64(uint64_t nb)
+uint64_t		reverse_uint64(uint64_t nb)
 {
 	uint64_t	ret;
 
-	ret =  (nb & 0x00000000000000ff) << 56;
+	ret = (nb & 0x00000000000000ff) << 56;
 	ret |= (nb & 0x000000000000ff00) << 40;
 	ret |= (nb & 0x0000000000ff0000) << 24;
 	ret |= (nb & 0x00000000ff000000) << 8;
