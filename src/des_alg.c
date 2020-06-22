@@ -6,7 +6,7 @@
 /*   By: gdelabro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/19 20:04:14 by gdelabro          #+#    #+#             */
-/*   Updated: 2020/06/19 21:20:46 by gdelabro         ###   ########.fr       */
+/*   Updated: 2020/06/22 15:35:38 by gdelabro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,4 +111,5 @@ void		des_func(t_ssl *ssl, t_des *d)
 		aff_code((char*)d->result, d->fd2);
 	free(d->msg);
 	free(d->result);
+	d->fd2 > 2 ? close(d->fd2) : 0;
 }

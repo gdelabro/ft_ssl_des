@@ -6,11 +6,23 @@
 /*   By: gdelabro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/19 20:04:05 by gdelabro          #+#    #+#             */
-/*   Updated: 2020/06/19 20:04:05 by gdelabro         ###   ########.fr       */
+/*   Updated: 2020/06/22 15:17:14 by gdelabro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft_ssl.h"
+
+void	get_random(void *ptr, int size)
+{
+	int fd;
+
+	fd = open("/dev/urandom", O_RDONLY);
+	if (fd < 0)
+		quit("can't open /dev/urandom");
+	if (read(fd, ptr, size) < 0)
+		quit("can't read /dev/urandom");
+	close(fd);
+}
 
 void	des_arg(t_ssl *s, char **av)
 {

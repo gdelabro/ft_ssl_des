@@ -6,7 +6,7 @@
 /*   By: gdelabro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/19 20:05:04 by gdelabro          #+#    #+#             */
-/*   Updated: 2020/06/19 21:46:57 by gdelabro         ###   ########.fr       */
+/*   Updated: 2020/06/22 15:18:18 by gdelabro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,6 +159,7 @@ unsigned int	switch_endian(unsigned int nb);
 unsigned int	rotl(unsigned int nb, unsigned int rot);
 unsigned int	rotr(unsigned int nb, unsigned int rot);
 uint64_t		reverse_uint64(uint64_t nb);
+void			get_random(void *ptr, int size);
 
 void			base64(t_ssl *s);
 void			base64_decode(t_ssl *s, t_b64 *b);

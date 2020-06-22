@@ -6,7 +6,7 @@
 /*   By: gdelabro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/19 20:04:29 by gdelabro          #+#    #+#             */
-/*   Updated: 2020/06/19 21:22:26 by gdelabro         ###   ########.fr       */
+/*   Updated: 2020/06/22 15:47:31 by gdelabro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ void	fill_file_content(t_ssl *s)
 		s->file_content = tmp;
 		s->len += i;
 	}
+	close(fd);
 	if (!i && !s->file_content)
 		s->file_content = ft_strdup("");
 }

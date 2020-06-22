@@ -6,7 +6,7 @@
 /*   By: gdelabro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/19 20:04:18 by gdelabro          #+#    #+#             */
-/*   Updated: 2020/06/19 21:21:20 by gdelabro         ###   ########.fr       */
+/*   Updated: 2020/06/22 15:34:24 by gdelabro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void		key_gen(t_ssl *s, t_des *d)
 	if (s->s)
 		d->salt = transform_hex_to_uint64(s->s);
 	else if (!s->k)
-		getentropy(&d->salt, 8);
+		get_random(&d->salt, 8);
 	if (s->k)
 		d->key = transform_hex_to_uint64(s->k);
 	else
@@ -94,6 +94,7 @@ void		des_luncher(t_ssl *s, t_des *d)
 		d->msg = (uint8_t*)d->tmp;
 		d->len += i;
 	}
+	d->fd > 2 ? close(d->fd) : 0;
 	des_func(s, d);
 }
 
