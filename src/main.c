@@ -6,7 +6,7 @@
 /*   By: gdelabro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/19 20:04:33 by gdelabro          #+#    #+#             */
-/*   Updated: 2020/06/19 21:22:45 by gdelabro         ###   ########.fr       */
+/*   Updated: 2020/06/23 17:49:05 by gdelabro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,5 +29,5 @@ int		main(int ac, char **av)
 	n = 1;
 	s.little_endian = *(char*)&n;
 	parsing(av, &s);
-	return (0);
+	return (1);
 }
