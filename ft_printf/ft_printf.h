@@ -6,7 +6,7 @@
 /*   By: gdelabro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/14 17:44:45 by gdelabro          #+#    #+#             */
-/*   Updated: 2020/06/24 13:08:42 by gdelabro         ###   ########.fr       */
+/*   Updated: 2020/06/24 13:12:37 by gdelabro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@
 # define CORANGE		"\033[38;5;166m"
 # define DEV_C			"\033[43;34m"
 # define DEV_B			"\033[46;34m"
-/*# define ABS(x) ((x) < 0 ? - (x) : (x))*/
 
 typedef struct			s_pf
 {
