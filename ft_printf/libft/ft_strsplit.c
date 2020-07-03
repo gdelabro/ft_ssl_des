@@ -6,7 +6,7 @@
 /*   By: gdelabro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/07 18:45:55 by gdelabro          #+#    #+#             */
-/*   Updated: 2017/07/10 16:23:34 by gdelabro         ###   ########.fr       */
+/*   Updated: 2020/07/03 13:59:48 by gdelabro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ char		**ft_strsplit(char const *s, char c)
 		return (NULL);
 	i2 = 0;
 	i = 0;
-	if (!(tab = (char**)malloc(sizeof(*tab) * ft_nbmot(s, c) + 1)))
+	if (!(tab = (char**)malloc(sizeof(*tab) * (ft_nbmot(s, c) + 1))))
 		return (NULL);
 	while (s[i])
 	{

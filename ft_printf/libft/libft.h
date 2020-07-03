@@ -6,7 +6,7 @@
 /*   By: gdelabro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/04 11:36:59 by gdelabro          #+#    #+#             */
-/*   Updated: 2017/07/05 19:42:40 by gdelabro         ###   ########.fr       */
+/*   Updated: 2020/07/03 13:10:43 by gdelabro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ typedef struct		s_str
 
 int					get_next_line(const int fd, char **line);
 int					ft_nbmot(char const *s, char c);
+int					is_space(char c);
 void				aff_tab(char **tab);
 int					taille_tab(char **tab);
 void				ft_bzero(void *s, size_t n);

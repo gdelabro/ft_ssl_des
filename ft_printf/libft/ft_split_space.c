@@ -6,11 +6,18 @@
 /*   By: gdelabro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/06 13:54:06 by gdelabro          #+#    #+#             */
-/*   Updated: 2017/07/10 16:21:45 by gdelabro         ###   ########.fr       */
+/*   Updated: 2020/07/03 13:10:17 by gdelabro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+
+int			is_space(char c)
+{
+	if (c == ' ' || c == '\t' || c == '\n')
+		return (1);
+	return (0);
+}
 
 static int	ft_nbmot2(char const *s)
 {

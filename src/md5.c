@@ -6,7 +6,7 @@
 /*   By: gdelabro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/19 20:04:37 by gdelabro          #+#    #+#             */
-/*   Updated: 2020/06/19 21:25:02 by gdelabro         ###   ########.fr       */
+/*   Updated: 2020/07/03 12:33:05 by gdelabro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,10 @@ void			md5_init(t_ssl *ssl, t_md5 *md5, char *message)
 	if (!(md5->msg = malloc(64 * md5->nb_grps)))
 		quit("malloc failed\n");
 	ft_bzero(md5->msg, 64 * md5->nb_grps);
-	memcpy(md5->msg, message, ssl->len);
+	ft_memcpy(md5->msg, message, ssl->len);
 	md5->size = ssl->len * 8;
 	md5->msg[ssl->len] = 0x80;
-	memcpy(md5->msg + (64 * md5->nb_grps) - 8, &(md5->size), 8);
+	ft_memcpy(md5->msg + (64 * md5->nb_grps) - 8, &(md5->size), 8);
 	md5->grp = -1;
 }
 

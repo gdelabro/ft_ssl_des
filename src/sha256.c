@@ -6,7 +6,7 @@
 /*   By: gdelabro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/19 20:04:45 by gdelabro          #+#    #+#             */
-/*   Updated: 2020/06/19 21:45:09 by gdelabro         ###   ########.fr       */
+/*   Updated: 2020/07/03 12:33:38 by gdelabro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,12 @@ void			sha256_init(t_ssl *s, t_sha256 *sha, char *message)
 	if (!(sha->msg = malloc(64 * sha->nb_grps)))
 		quit("malloc failed\n");
 	ft_bzero(sha->msg, 64 * sha->nb_grps);
-	memcpy(sha->msg, message, s->len);
+	ft_memcpy(sha->msg, message, s->len);
 	sha->size = s->len * 8;
 	sha->size = (size_t)switch_endian(sha->size) << 32
 		| (size_t)switch_endian(sha->size) >> 32;
 	sha->msg[s->len] = 0x80;
-	memcpy(sha->msg + (64 * sha->nb_grps) - 8, &(sha->size), 8);
+	ft_memcpy(sha->msg + (64 * sha->nb_grps) - 8, &(sha->size), 8);
 	sha->grp = -1;
 }
 
